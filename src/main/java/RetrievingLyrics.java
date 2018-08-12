@@ -36,5 +36,9 @@ public class RetrievingLyrics {
 		}
 		
 	}
+	
+	public void getArtistTrack(String artistName){
+		System.out.println("do stuff");
+	}
 
 }
