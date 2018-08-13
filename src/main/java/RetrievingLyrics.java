@@ -9,27 +9,25 @@ import org.jmusixmatch.entity.track.TrackData;
 public class RetrievingLyrics {
 	
 	private final String musixMatchAPIKey = "76e38a26a27c53a5ead37cbf49cadf3d";
+	private MusixMatch musixMatch;
 	
 	public static void main(String[] args){
 		new RetrievingLyrics();
 	}
 	
 	public RetrievingLyrics(){
+		musixMatch = new MusixMatch(musixMatchAPIKey);
 		getLyrics("Don't stop the Party", "The Black Eyed Peas");
+		getArtistTrack("Drake");
 	}
 	
 	public void getLyrics(String songName, String artistName){
-		MusixMatch musixMatch = new MusixMatch(musixMatchAPIKey);
 		try {
 			Track track = musixMatch.getMatchingTrack(songName, artistName);
 			TrackData data = track.getTrack();
 			int trackID = data.getTrackId();
 			Lyrics lyrics = musixMatch.getLyrics(trackID);
 			//System.out.println(lyrics.getLyricsLang());
-			List<Track> tracks = musixMatch.searchTracks("I'm the fuckin' man, you don't get it do ya?", "Drake", "", 10, 10, false);
-			for(Track t: tracks){
-				System.out.println(t.getTrack().getTrackName());
-			}
 		} catch (MusixMatchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -38,7 +36,15 @@ public class RetrievingLyrics {
 	}
 	
 	public void getArtistTrack(String artistName){
-		System.out.println("do stuff");
+		try {
+			List<Track> tracks = musixMatch.searchTracks("", "Drake", "", 10, 10, true);
+			for(Track t: tracks){
+				System.out.println(t.getTrack().getTrackName());
+			}
+		} catch (MusixMatchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
